@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 public class EmployeeAdd extends JFrame implements ActionListener {
 
+    JTextField empNameInput, empAgeInput, empSalaryInput, empPhoneInput, empAadharInput,  empEmailInput;
+    JRadioButton maleButton, femaleButton;
+    JComboBox jobOptions;
+    JButton submitButton;
+
     EmployeeAdd() {
         setLayout(null);
 
@@ -13,8 +18,8 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         employeeName.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeeName);
 
-        JTextField empNameInput = new JTextField();
-        empNameInput.setBounds(180, 35, 150, 25);
+        empNameInput = new JTextField();
+        empNameInput.setBounds(200, 35, 150, 25);
         add(empNameInput);
 
         JLabel employeeAge = new JLabel("Age");
@@ -22,8 +27,8 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         employeeAge.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeeAge);
 
-        JTextField empAgeInput = new JTextField();
-        empAgeInput.setBounds(180, 70, 150, 25);
+        empAgeInput = new JTextField();
+        empAgeInput.setBounds(200, 70, 150, 25);
         add(empAgeInput);
 
         JLabel employeeGender = new JLabel("Gender");
@@ -31,17 +36,21 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         employeeGender.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeeGender);
 
-        JRadioButton maleButton = new JRadioButton("Male");
-        maleButton.setBounds(180, 100, 70, 30);
+        maleButton = new JRadioButton("Male");
+        maleButton.setBounds(200, 100, 70, 30);
         maleButton.setFont(new Font("Roboto", Font.BOLD, 12));
         maleButton.setBackground(Color.WHITE);
         add(maleButton);
 
-        JRadioButton femaleButton = new JRadioButton("Female");
-        femaleButton.setBounds(220, 100, 80, 30);
+        femaleButton = new JRadioButton("Female");
+        femaleButton.setBounds(270, 100, 80, 30);
         femaleButton.setFont(new Font("Roboto", Font.BOLD, 12));
         femaleButton.setBackground(Color.WHITE);
         add(femaleButton);
+
+        ButtonGroup maleFemaleButtons = new ButtonGroup();
+        maleFemaleButtons.add(maleButton);
+        maleFemaleButtons.add(femaleButton);
 
         JLabel employeeJob = new JLabel("Job");
         employeeJob.setBounds(60, 140, 120, 30);
@@ -58,8 +67,8 @@ public class EmployeeAdd extends JFrame implements ActionListener {
                 "Manager",
                 "Accountant"
         };
-        JComboBox jobOptions = new JComboBox(jobTitles);
-        jobOptions.setBounds(180, 140, 150, 30);
+        jobOptions = new JComboBox(jobTitles);
+        jobOptions.setBounds(200, 140, 150, 30);
         jobOptions.setBackground(Color.WHITE);
         jobOptions.setBackground(Color.WHITE);
         jobOptions.setFont(new Font("Roboto", Font.BOLD, 12));
@@ -70,8 +79,8 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         employeeSalary.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeeSalary);
 
-        JTextField empSalaryInput = new JTextField();
-        empSalaryInput.setBounds(180, 185, 150, 25);
+        empSalaryInput = new JTextField();
+        empSalaryInput.setBounds(200, 185, 150, 25);
         add(empSalaryInput);
 
         JLabel employeePhone = new JLabel("Phone Number");
@@ -79,24 +88,34 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         employeePhone.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeePhone);
 
-        JTextField empPhoneInput = new JTextField();
-        empPhoneInput.setBounds(180, 220, 150, 25);
+        empPhoneInput = new JTextField();
+        empPhoneInput.setBounds(200, 220, 150, 25);
         add(empPhoneInput);
 
+        JLabel empAadhar = new JLabel("Aadhar Number");
+        empAadhar.setBounds(60, 250, 120, 30);
+        empAadhar.setFont(new Font("Roboto", Font.PLAIN, 17));
+        add(empAadhar);
+
+        empAadharInput = new JTextField();
+        empAadharInput.setBounds(200, 255, 150, 25);
+        add(empAadharInput);
+
         JLabel employeeEmail = new JLabel("E-mail");
-        employeeEmail.setBounds(60, 250, 120, 30);
+        employeeEmail.setBounds(60, 280, 120, 30);
         employeeEmail.setFont(new Font("Roboto", Font.PLAIN, 17));
         add(employeeEmail);
 
-        JTextField empEmailInput = new JTextField();
-        empEmailInput.setBounds(180, 255, 150, 25);
+        empEmailInput = new JTextField();
+        empEmailInput.setBounds(200, 285, 150, 25);
         add(empEmailInput);
 
-        JButton submitButton = new JButton("Submit");
+        submitButton = new JButton("Submit");
         submitButton.setBackground(Color.BLACK);
         submitButton.setForeground(Color.WHITE);
-        submitButton.setBounds(110, 300, 150, 25);
+        submitButton.setBounds(110, 320, 150, 25);
         submitButton.setFont(new Font("Roboto", Font.BOLD, 14));
+        submitButton.addActionListener(this);
         add(submitButton);
 
         ImageIcon unscaledImage = new ImageIcon(ClassLoader.getSystemResource("icons/tenth.jpg"));
@@ -109,12 +128,35 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.WHITE);
         setBounds(300, 200, 850, 450);
 
-
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae) {
+        String employeeName = empNameInput.getText();
+        String employeeAge = empAgeInput.getText();
+        String employeeSalary = empSalaryInput.getText();
+        String employeePhone = empPhoneInput.getText();
+        String employeeAadhar = empAadharInput.getText();
+        String employeeEmail = empEmailInput.getText();
+        String employeeGender = null;
 
+        if (maleButton.isSelected()) {
+            employeeGender = "Male";
+        } else if (femaleButton.isSelected()) {
+            employeeGender = "Female";
+        }
+
+        String jobTitle = (String) jobOptions.getSelectedItem();
+
+        try {
+            ConnectionDB c = new ConnectionDB();
+            String query = "INSERT INTO employee VALUES ('"+employeeName+"', "+employeeAge+", "+employeeSalary+", "+employeePhone+", "+employeeAadhar+", '"+employeeEmail+"', '"+employeeGender+"', '"+jobTitle+"')";
+            c.s.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Employee Added Successfully");
+            setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();  // Print the exception's stack trace for debugging purposes
+        }
     }
     public static void main(String[] args) {
         new EmployeeAdd();
