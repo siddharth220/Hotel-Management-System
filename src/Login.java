@@ -1,7 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.Arrays;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
+
+    JTextField usernameInput, passwordInput;
+    JButton loginButton, cancelButton;
     Login() {
         getContentPane().setBackground(Color.WHITE);
         setLayout(null);
@@ -17,26 +23,28 @@ public class Login extends JFrame {
         passwordField.setFont(new Font("Roboto", Font.BOLD, 16));
         add(passwordField);
 
-        JTextField usernameInput = new JTextField();
+        usernameInput = new JTextField();
         usernameInput.setBounds(150, 50, 300, 30);
         add(usernameInput);
 
-        JPasswordField passwordInput = new JPasswordField();
+        passwordInput = new JTextField();
         passwordInput.setBounds(150, 100, 300, 30);
         add(passwordInput);
 
-        JButton loginButton = new JButton("Login");
+        loginButton = new JButton("Login");
         loginButton.setBounds(80, 180, 150, 30);
         loginButton.setBackground(Color.BLACK);
         loginButton.setForeground(Color.white);
         loginButton.setFont(new Font("Roboto", Font.BOLD, 18));
+        loginButton.addActionListener(this);
         add(loginButton);
 
-        JButton cancelButton = new JButton("Cancel");
+        cancelButton = new JButton("Cancel");
         cancelButton.setBounds(270, 180, 150, 30);
         cancelButton.setBackground(Color.BLACK);
         cancelButton.setForeground(Color.white);
         cancelButton.setFont(new Font("Roboto", Font.BOLD, 18));
+        cancelButton.addActionListener(this);
         add(cancelButton);
 
         ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
@@ -47,6 +55,30 @@ public class Login extends JFrame {
         add(loginImage);
 
         setVisible(true);
+    }
+
+    public void actionPerformed (ActionEvent ae) {
+        if (ae.getSource() == loginButton) {
+            String username = usernameInput.getText();
+            String password = passwordInput.getText();
+
+            try  {
+                ConnectionDB c = new ConnectionDB();
+                String query = "SELECT * FROM login_info WHERE username = '" +username+ "' AND password = " + password;
+                ResultSet rSet = c.s.executeQuery(query);
+
+                if (rSet.next()) {
+                    setVisible(false);
+                    new HotelDashboard();
+                } else {
+                    JOptionPane.showMessageDialog(null, "The Username or Password input is invalid");
+                }
+            } catch (Exception ignored) {
+
+            }
+        } else if (ae.getSource() == cancelButton) {
+            setVisible(false);
+        }
     }
     public static void main(String[] args) {
         new Login();
