@@ -1,7 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class HotelDashboard extends JFrame {
+public class HotelDashboard extends JFrame implements ActionListener {
+
+    JMenuItem addEmployee, addRooms, addDrivers, reception;
 
     HotelDashboard() {
         setBounds(0, 0, 1550, 1000);
@@ -26,20 +30,35 @@ public class HotelDashboard extends JFrame {
 
         JMenu optionHotelMgmt = new JMenu("Hotel Management");
         dashboardMb.add(optionHotelMgmt);
-        JMenuItem reception = new JMenuItem("Reception");
+        reception = new JMenuItem("Reception");
+        reception.addActionListener(this);
         optionHotelMgmt.add(reception);
 
         JMenu optionAdmin = new JMenu("Admin");
         dashboardMb.add(optionAdmin);
-        JMenuItem addEmployee = new JMenuItem("Add Employee");
+        addEmployee = new JMenuItem("Add Employee");
+        addEmployee.addActionListener(this);
         optionAdmin.add(addEmployee);
-        JMenuItem addRooms = new JMenuItem("Add Rooms");
+        addRooms = new JMenuItem("Add Rooms");
+        addRooms.addActionListener(this);
         optionAdmin.add(addRooms);
-        JMenuItem addDrivers = new JMenuItem("Add Drivers");
+        addDrivers = new JMenuItem("Add Drivers");
         optionAdmin.add(addDrivers);
 
 
         setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == addEmployee) {
+            new EmployeeAdd();
+        } else if (ae.getSource() == addRooms) {
+            new RoomsAdd();
+        } else if (ae.getSource() == addDrivers) {
+            new DriverAdd();
+        } else if (ae.getSource() == reception) {
+            new HotelReception();
+        }
     }
     public static void main(String[] args) {
         new HotelDashboard();
