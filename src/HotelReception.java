@@ -13,25 +13,28 @@ public class HotelReception extends JFrame implements ActionListener {
         newCustomer.setBackground(Color.BLACK);
         newCustomer.setForeground(Color.WHITE);
         newCustomer.setBounds(60, 30, 200, 30);
+        newCustomer.addActionListener(this);
         add(newCustomer);
 
         roomInfo = new JButton("Room Information");
         roomInfo.setBackground(Color.BLACK);
         roomInfo.setForeground(Color.WHITE);
         roomInfo.setBounds(60, 80, 200, 30);
+        roomInfo.addActionListener(this);
         add(roomInfo);
+
+        departmentInfo = new JButton("Department Information");
+        departmentInfo.setBackground(Color.BLACK);
+        departmentInfo.setForeground(Color.WHITE);
+        departmentInfo.setBounds(60, 130, 200, 30);
+        departmentInfo.addActionListener(this);
+        add(departmentInfo);
 
         employeeInfo = new JButton("Employee Information");
         employeeInfo.setBackground(Color.BLACK);
         employeeInfo.setForeground(Color.WHITE);
-        employeeInfo.setBounds(60, 130, 200, 30);
+        employeeInfo.setBounds(60, 180, 200, 30);
         add(employeeInfo);
-
-        departmentInfo = new JButton("Employee Information");
-        departmentInfo.setBackground(Color.BLACK);
-        departmentInfo.setForeground(Color.WHITE);
-        departmentInfo.setBounds(60, 180, 200, 30);
-        add(departmentInfo);
 
         customerInfo = new JButton("Customer Information");
         customerInfo.setBackground(Color.BLACK);
@@ -94,7 +97,16 @@ public class HotelReception extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae){
-
+        if (ae.getSource() == newCustomer) {
+            setVisible(false);
+            new NewCustomer();
+        } else if (ae.getSource() == roomInfo) {
+            setVisible(false);
+            new Rooms();
+        } else if (ae.getSource() == departmentInfo) {
+            setVisible(false);
+            new Departments();
+        }
     }
 
     public static void main(String[] args) {
