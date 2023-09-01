@@ -34,18 +34,21 @@ public class HotelReception extends JFrame implements ActionListener {
         employeeInfo.setBackground(Color.BLACK);
         employeeInfo.setForeground(Color.WHITE);
         employeeInfo.setBounds(60, 180, 200, 30);
+        employeeInfo.addActionListener(this);
         add(employeeInfo);
 
         customerInfo = new JButton("Customer Information");
         customerInfo.setBackground(Color.BLACK);
         customerInfo.setForeground(Color.WHITE);
         customerInfo.setBounds(60, 230, 200, 30);
+        customerInfo.addActionListener(this);
         add(customerInfo);
 
         managerInfo = new JButton("Manager Information");
         managerInfo.setBackground(Color.BLACK);
         managerInfo.setForeground(Color.WHITE);
         managerInfo.setBounds(60, 280, 200, 30);
+        managerInfo.addActionListener(this);
         add(managerInfo);
 
         checkout = new JButton("Checkout");
@@ -58,6 +61,7 @@ public class HotelReception extends JFrame implements ActionListener {
         updateStatus.setBackground(Color.BLACK);
         updateStatus.setForeground(Color.WHITE);
         updateStatus.setBounds(60, 380, 200, 30);
+        updateStatus.addActionListener(this);
         add(updateStatus);
 
         updateRooms = new JButton("Update Room Status");
@@ -76,6 +80,7 @@ public class HotelReception extends JFrame implements ActionListener {
         searchRooms.setBackground(Color.BLACK);
         searchRooms.setForeground(Color.WHITE);
         searchRooms.setBounds(60, 530, 200, 30);
+        searchRooms.addActionListener(this);
         add(searchRooms);
 
         logout = new JButton("Logout");
@@ -106,6 +111,21 @@ public class HotelReception extends JFrame implements ActionListener {
         } else if (ae.getSource() == departmentInfo) {
             setVisible(false);
             new Departments();
+        } else if (ae.getSource() == employeeInfo) {
+            setVisible(false);
+            new EmployeeInfo();
+        } else if (ae.getSource() == customerInfo) {
+            setVisible(false);
+            new CustomerInfo();
+        } else if (ae.getSource() == managerInfo) {
+            setVisible(false);
+            new ManagerInfo();
+        } else if (ae.getSource() == searchRooms) {
+            setVisible(false);
+            new SearchRooms();
+        } else if (ae.getSource() == updateStatus) {
+            setVisible(false);
+            new UpdateCheck();
         }
     }
 
