@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.util.Arrays;
 
 public class Login extends JFrame implements ActionListener {
 
@@ -65,7 +64,7 @@ public class Login extends JFrame implements ActionListener {
             try  {
                 ConnectionDB c = new ConnectionDB();
                 String query = "SELECT * FROM login_info WHERE username = '" +username+ "' AND password = " + password;
-                ResultSet rSet = c.s.executeQuery(query);
+                ResultSet rSet = c.statement.executeQuery(query);
 
                 if (rSet.next()) {
                     setVisible(false);
