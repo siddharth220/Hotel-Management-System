@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import net.proteanit.sql.*;
 
@@ -65,7 +64,7 @@ public class SearchRooms extends JFrame implements ActionListener {
         try {
             ConnectionDB c = new ConnectionDB();
             String query = "SELECT * FROM rooms";
-            ResultSet rs = c.s.executeQuery(query);
+            ResultSet rs = c.statement.executeQuery(query);
             roomsTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,9 +95,9 @@ public class SearchRooms extends JFrame implements ActionListener {
                 ResultSet rs;
                 ConnectionDB c = new ConnectionDB();
                 if (availableRooms.isSelected()) {
-                    rs = c.s.executeQuery(availableQ);
+                    rs = c.statement.executeQuery(availableQ);
                 } else {
-                    rs = c.s.executeQuery(bedQ);
+                    rs = c.statement.executeQuery(bedQ);
                 }
                 roomsTable.setModel(DbUtils.resultSetToTableModel(rs));
             } catch (Exception e) {
