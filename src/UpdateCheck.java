@@ -127,13 +127,11 @@ public class UpdateCheck extends JFrame implements ActionListener {
             }
         } else if (ae.getSource() == updateData) {
             String id = customerData.getSelectedItem();
-            String roomNum = roomNoDisp.getText();
             String deposit = custAmtDisp.getText();
 
             try {
                 ConnectionDB c = new ConnectionDB();
                 c.s.executeUpdate("UPDATE customer_info SET deposit_amount = '"+deposit+"' WHERE document_id = '"+id+"' ");
-                c.s.executeUpdate("UPDATE rooms SET room_status = 'Available', room_clean_status = 'Unclean' WHERE room_number = '"+roomNum+"' ");
                 JOptionPane.showMessageDialog(null, "Data Updated Successfully");
             } catch (Exception e) {
                 e.printStackTrace();
