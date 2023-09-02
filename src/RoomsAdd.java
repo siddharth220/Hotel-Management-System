@@ -109,7 +109,7 @@ public class RoomsAdd extends JFrame implements ActionListener {
             try {
                 ConnectionDB c = new ConnectionDB();
                 String query = "INSERT INTO rooms VALUES ("+roomNo+", '"+roomStatus+"', '"+roomCleanStatus+"', "+roomPrice+", '"+roomBedType+"')";
-                c.s.executeUpdate(query);
+                c.statement.executeUpdate(query);
                 JOptionPane.showMessageDialog(null, "Room Added");
             } catch (Exception e) {
                 e.printStackTrace();
