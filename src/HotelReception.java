@@ -68,6 +68,7 @@ public class HotelReception extends JFrame implements ActionListener {
         updateRooms.setBackground(Color.BLACK);
         updateRooms.setForeground(Color.WHITE);
         updateRooms.setBounds(60, 430, 200, 30);
+        updateRooms.addActionListener(this);
         add(updateRooms);
 
         pickupService = new JButton("Pickup Services");
@@ -126,6 +127,9 @@ public class HotelReception extends JFrame implements ActionListener {
         } else if (ae.getSource() == updateStatus) {
             setVisible(false);
             new UpdateCheck();
+        } else if (ae.getSource() == updateRooms) {
+            setVisible(false);
+            new RoomUpdate();
         }
     }
 
