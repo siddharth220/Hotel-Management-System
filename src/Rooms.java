@@ -52,7 +52,7 @@ public class Rooms extends JFrame implements ActionListener {
         try {
             ConnectionDB c = new ConnectionDB();
             String query = "SELECT * FROM rooms";
-            ResultSet rs = c.s.executeQuery(query);
+            ResultSet rs = c.statement.executeQuery(query);
             roomsTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             e.printStackTrace();
