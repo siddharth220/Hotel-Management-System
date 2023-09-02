@@ -15,6 +15,12 @@ public class UpdateCheck extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.WHITE);
         setBounds(300, 200, 980, 500);
 
+        JLabel title = new JLabel("UPDATE CUSTOMER INFORMATION");
+        title.setBounds(300, 20, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         JLabel custID = new JLabel("Customer ID");
         custID.setBounds(30, 80, 100, 20);
         add(custID);
@@ -91,7 +97,7 @@ public class UpdateCheck extends JFrame implements ActionListener {
 
         try {
             ConnectionDB c = new ConnectionDB();
-            ResultSet rs = c.s.executeQuery("SELECT * FROM customer_info");
+            ResultSet rs = c.statement.executeQuery("SELECT * FROM customer_info");
             while (rs.next()) {
                 customerData.add(rs.getString("document_id"));
             }
@@ -109,14 +115,14 @@ public class UpdateCheck extends JFrame implements ActionListener {
 
                 ConnectionDB c = new ConnectionDB();
 
-                ResultSet rs = c.s.executeQuery(dataQ);
+                ResultSet rs = c.statement.executeQuery(dataQ);
                 while (rs.next()) {
                     roomNoDisp.setText(rs.getString("room_number"));
                     custNameDisp.setText(rs.getString("customer_name"));
                     custAmtDisp.setText(rs.getString("deposit_amount"));
                     custTimeDisp.setText(rs.getString("checkin_time"));
                 }
-                ResultSet amt = c.s.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
+                ResultSet amt = c.statement.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
                 while (amt.next()) {
                     String price = amt.getString("room_price");
                     int amountRem = Integer.parseInt(price) - Integer.parseInt(custAmtDisp.getText());
@@ -131,7 +137,7 @@ public class UpdateCheck extends JFrame implements ActionListener {
 
             try {
                 ConnectionDB c = new ConnectionDB();
-                c.s.executeUpdate("UPDATE customer_info SET deposit_amount = '"+deposit+"' WHERE document_id = '"+id+"' ");
+                c.statement.executeUpdate("UPDATE customer_info SET deposit_amount = '"+deposit+"' WHERE document_id = '"+id+"' ");
                 JOptionPane.showMessageDialog(null, "Data Updated Successfully");
             } catch (Exception e) {
                 e.printStackTrace();
