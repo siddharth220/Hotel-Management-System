@@ -75,7 +75,7 @@ public class NewCustomer extends JFrame implements ActionListener {
         try {
             ConnectionDB c = new ConnectionDB();
             String query = "SELECT * from rooms WHERE room_status = 'Available'";
-            ResultSet rs = c.s.executeQuery(query);
+            ResultSet rs = c.statement.executeQuery(query);
             while (rs.next()) {
                 roomNumberBox.add(rs.getString("room_number"));
             }
@@ -166,8 +166,8 @@ public class NewCustomer extends JFrame implements ActionListener {
                 ConnectionDB c = new ConnectionDB();
                 String addCustomerQ = "INSERT INTO customer_info VALUES ('"+customerIdType+"', '"+customerID+"', '"+customerName+"', '"+gender+"', '"+country+"', "+roomNumber+", '"+checkInTime+"', "+amount+")";
                 String updateQ = "UPDATE rooms SET room_status = 'Occupied' WHERE room_number = "+roomNumber+" ";
-                c.s.executeUpdate(addCustomerQ);
-                c.s.executeUpdate(updateQ);
+                c.statement.executeUpdate(addCustomerQ);
+                c.statement.executeUpdate(updateQ);
                 JOptionPane.showMessageDialog(null, "Customer Added Successfully");
             } catch (Exception e) {
                 e.printStackTrace();
