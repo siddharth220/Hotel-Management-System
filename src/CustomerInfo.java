@@ -61,7 +61,7 @@ public class CustomerInfo extends JFrame implements ActionListener {
         try {
             ConnectionDB c = new ConnectionDB();
             String query = "SELECT * FROM customer_info";
-            ResultSet rs = c.s.executeQuery(query);
+            ResultSet rs = c.statement.executeQuery(query);
             custInfoTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             e.printStackTrace();
