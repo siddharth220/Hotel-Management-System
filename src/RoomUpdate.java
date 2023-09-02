@@ -77,7 +77,7 @@ public class RoomUpdate extends JFrame implements ActionListener {
 
         try {
             ConnectionDB c = new ConnectionDB();
-            ResultSet rs = c.s.executeQuery("SELECT * FROM customer_info");
+            ResultSet rs = c.statement.executeQuery("SELECT * FROM customer_info");
             while (rs.next()) {
                 customerData.add(rs.getString("document_id"));
             }
@@ -95,11 +95,11 @@ public class RoomUpdate extends JFrame implements ActionListener {
 
                 ConnectionDB c = new ConnectionDB();
 
-                ResultSet rs = c.s.executeQuery(dataQ);
+                ResultSet rs = c.statement.executeQuery(dataQ);
                 while (rs.next()) {
                     roomNoDisp.setText(rs.getString("room_number"));
                 }
-                ResultSet status = c.s.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
+                ResultSet status = c.statement.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
                 while (status.next()) {
                     roomAvlDisp.setText(status.getString("room_status"));
                     roomClnStatus.setText(status.getString("room_clean_status"));
@@ -115,7 +115,7 @@ public class RoomUpdate extends JFrame implements ActionListener {
 
             try {
                 ConnectionDB c = new ConnectionDB();
-                c.s.executeUpdate("UPDATE rooms SET room_status = '"+avlStatus+"', room_clean_status = '"+clnStatus+"' WHERE room_number = '"+roomNum+"' ");
+                c.statement.executeUpdate("UPDATE rooms SET room_status = '"+avlStatus+"', room_clean_status = '"+clnStatus+"' WHERE room_number = '"+roomNum+"' ");
                 JOptionPane.showMessageDialog(null, "Data Updated Successfully");
             } catch (Exception e) {
                 e.printStackTrace();
