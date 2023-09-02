@@ -75,6 +75,7 @@ public class HotelReception extends JFrame implements ActionListener {
         pickupService.setBackground(Color.BLACK);
         pickupService.setForeground(Color.WHITE);
         pickupService.setBounds(60, 480, 200, 30);
+        pickupService.addActionListener(this);
         add(pickupService);
 
         searchRooms = new JButton("Search Rooms");
@@ -130,6 +131,14 @@ public class HotelReception extends JFrame implements ActionListener {
         } else if (ae.getSource() == updateRooms) {
             setVisible(false);
             new RoomUpdate();
+        } else if (ae.getSource() == pickupService) {
+            setVisible(false);
+            new DriverInfo();
+        } else if (ae.getSource() == checkout) {
+            setVisible(false);
+            new CustomerCheckout();
+        } else if (ae.getSource() == logout) {
+            setVisible(false);
         }
     }
 
