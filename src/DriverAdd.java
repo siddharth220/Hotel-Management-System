@@ -124,7 +124,7 @@ public class DriverAdd extends JFrame implements ActionListener {
             try {
                 ConnectionDB c = new ConnectionDB();
                 String query = "INSERT INTO driver_data VALUES ('"+dName+"', "+dAge+", '"+dGender+"', '"+dCarCompany+"', '"+dCarModel+"', '"+dAvailability+"', '"+dLocation+"')";
-                c.s.executeUpdate(query);
+                c.statement.executeUpdate(query);
                 JOptionPane.showMessageDialog(null, "Driver Added");
             } catch (Exception e) {
                 e.printStackTrace();
