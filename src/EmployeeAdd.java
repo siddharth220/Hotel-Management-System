@@ -151,7 +151,7 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         try {
             ConnectionDB c = new ConnectionDB();
             String query = "INSERT INTO employee VALUES ('"+employeeName+"', "+employeeAge+", "+employeeSalary+", "+employeePhone+", "+employeeAadhar+", '"+employeeEmail+"', '"+employeeGender+"', '"+jobTitle+"')";
-            c.s.executeUpdate(query);
+            c.statement.executeUpdate(query);
             JOptionPane.showMessageDialog(null, "Employee Added Successfully");
             setVisible(false);
         } catch (Exception e) {
