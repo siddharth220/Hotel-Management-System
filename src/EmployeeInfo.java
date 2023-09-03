@@ -57,13 +57,12 @@ public class EmployeeInfo extends JFrame implements ActionListener {
         empInfoTable.setBounds(0, 40, 1000, 400);
         add(empInfoTable);
 
-
         try {
             ConnectionDB c = new ConnectionDB();
-            String query = "SELECT * FROM employee";
-            ResultSet rs = c.statement.executeQuery(query);
+            ResultSet rs = c.statement.executeQuery("SELECT * FROM employee");
             empInfoTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error fetching employee data: " + e.getMessage());
             e.printStackTrace();
         }
 

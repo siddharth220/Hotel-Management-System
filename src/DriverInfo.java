@@ -97,21 +97,28 @@ public class DriverInfo extends JFrame implements ActionListener {
 
         setVisible(true);
     }
-    public void actionPerformed (ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == submitButton) {
-            try {
-                ConnectionDB c = new ConnectionDB();
-                String availableQ = "SELECT * FROM driver_data WHERE car_company = '"+carOptions.getSelectedItem()+"'";
-                ResultSet rs = c.statement.executeQuery(availableQ);
-                driverInfoTable.setModel(DbUtils.resultSetToTableModel(rs));
-            } catch (Exception e) {
-                e.printStackTrace();
+            String selectedCarType = carOptions.getSelectedItem();
+
+            if (selectedCarType.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please select a car type.");
+            } else {
+                try {
+                    ConnectionDB c = new ConnectionDB();
+                    String availableQ = "SELECT * FROM driver_data WHERE car_company = '"+selectedCarType+"'";
+                    ResultSet rs = c.statement.executeQuery(availableQ);
+                    driverInfoTable.setModel(DbUtils.resultSetToTableModel(rs));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else if (ae.getSource() == backButton) {
             setVisible(false);
             new HotelReception();
         }
     }
+
     public static void main(String[] args) {
         new DriverInfo();
     }

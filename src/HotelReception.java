@@ -9,6 +9,12 @@ public class HotelReception extends JFrame implements ActionListener {
     HotelReception() {
         setLayout(null);
 
+        JLabel title = new JLabel("RECEPTION");
+        title.setBounds(500, 25, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 28));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         newCustomer = new JButton("New Customer");
         newCustomer.setBackground(Color.BLACK);
         newCustomer.setForeground(Color.WHITE);
@@ -55,6 +61,7 @@ public class HotelReception extends JFrame implements ActionListener {
         checkout.setBackground(Color.BLACK);
         checkout.setForeground(Color.WHITE);
         checkout.setBounds(60, 330, 200, 30);
+        checkout.addActionListener(this);
         add(checkout);
 
         updateStatus = new JButton("Update Status");
@@ -89,13 +96,14 @@ public class HotelReception extends JFrame implements ActionListener {
         logout.setBackground(Color.BLACK);
         logout.setForeground(Color.WHITE);
         logout.setBounds(60, 580, 200, 30);
+        logout.addActionListener(this);
         add(logout);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/fourth.jpg"));
-        Image scaleImage = img.getImage().getScaledInstance(500, 470, Image.SCALE_DEFAULT);
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/reception.jpg"));
+        Image scaleImage = img.getImage().getScaledInstance(612, 383, Image.SCALE_DEFAULT);
         ImageIcon scaledImage = new ImageIcon(scaleImage);
         JLabel receptionImage = new JLabel(scaledImage);
-        receptionImage.setBounds(350, 100, 500, 470);
+        receptionImage.setBounds(280, 120, 612, 383);
         add(receptionImage);
 
         getContentPane().setBackground(Color.WHITE);
@@ -105,38 +113,93 @@ public class HotelReception extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae){
         if (ae.getSource() == newCustomer) {
-            setVisible(false);
-            new NewCustomer();
+            try {
+                setVisible(false);
+                new NewCustomer();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening New Customer: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == roomInfo) {
-            setVisible(false);
-            new Rooms();
+            try {
+                setVisible(false);
+                new Rooms();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Room Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == departmentInfo) {
-            setVisible(false);
-            new Departments();
-        } else if (ae.getSource() == employeeInfo) {
-            setVisible(false);
-            new EmployeeInfo();
+            try {
+                setVisible(false);
+                new Departments();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }  else if (ae.getSource() == employeeInfo) {
+            try {
+                setVisible(false);
+                new EmployeeInfo();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == customerInfo) {
-            setVisible(false);
-            new CustomerInfo();
+            try {
+                setVisible(false);
+                new CustomerInfo();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == managerInfo) {
-            setVisible(false);
-            new ManagerInfo();
+            try {
+                setVisible(false);
+                new ManagerInfo();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == searchRooms) {
-            setVisible(false);
-            new SearchRooms();
+            try {
+                setVisible(false);
+                new SearchRooms();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == updateStatus) {
-            setVisible(false);
-            new UpdateCheck();
+            try {
+                setVisible(false);
+                new UpdateCheck();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == updateRooms) {
-            setVisible(false);
-            new RoomUpdate();
+            try {
+                setVisible(false);
+                new RoomUpdate();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == pickupService) {
-            setVisible(false);
-            new DriverInfo();
+            try {
+                setVisible(false);
+                new DriverInfo();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == checkout) {
-            setVisible(false);
-            new CustomerCheckout();
+            try {
+                setVisible(false);
+                new CustomerCheckout();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Department Information: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == logout) {
             setVisible(false);
         }

@@ -17,6 +17,12 @@ public class NewCustomer extends JFrame implements ActionListener {
         setBounds(350, 70, 980, 600);
         getContentPane().setBackground(Color.WHITE);
 
+        JLabel title = new JLabel("NEW CUSTOMER");
+        title.setBounds(640, 20, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         JLabel customerID = new JLabel("Customer ID");
         customerID.setBounds(60, 50, 200, 30);
         customerID.setFont(new Font("Roboto", Font.BOLD, 16));
@@ -114,11 +120,11 @@ public class NewCustomer extends JFrame implements ActionListener {
         cancelButton.setBackground(Color.BLACK);
         cancelButton.addActionListener(this);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/fifth.png"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/new-cust.png"));
         Image scaleImg = img.getImage().getScaledInstance(300, 400, Image.SCALE_DEFAULT);
         ImageIcon scaledImg = new ImageIcon(scaleImg);
         JLabel customerAddImg = new JLabel(scaledImg);
-        customerAddImg.setBounds(600, 50, 300, 400);
+        customerAddImg.setBounds(600, 80, 300, 400);
 
         add(customerID);
         add(gender);
@@ -162,21 +168,43 @@ public class NewCustomer extends JFrame implements ActionListener {
         }
 
         if (ae.getSource() == addButton) {
-            try {
-                ConnectionDB c = new ConnectionDB();
-                String addCustomerQ = "INSERT INTO customer_info VALUES ('"+customerIdType+"', '"+customerID+"', '"+customerName+"', '"+gender+"', '"+country+"', "+roomNumber+", '"+checkInTime+"', "+amount+")";
-                String updateQ = "UPDATE rooms SET room_status = 'Occupied' WHERE room_number = "+roomNumber+" ";
-                c.statement.executeUpdate(addCustomerQ);
-                c.statement.executeUpdate(updateQ);
-                JOptionPane.showMessageDialog(null, "Customer Added Successfully");
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (validateFields()) { // Validate input fields
+                try {
+                    ConnectionDB c = new ConnectionDB();
+                    String addCustomerQ = "INSERT INTO customer_info VALUES ('"+customerIdType+"', '"+customerID+"', '"+customerName+"', '"+gender+"', '"+country+"', "+roomNumber+", '"+checkInTime+"', "+amount+")";
+                    String updateQ = "UPDATE rooms SET room_status = 'Occupied' WHERE room_number = "+roomNumber+" ";
+                    c.statement.executeUpdate(addCustomerQ);
+                    c.statement.executeUpdate(updateQ);
+                    JOptionPane.showMessageDialog(null, "Customer Added Successfully");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else if (ae.getSource() == cancelButton) {
             setVisible(false);
             new HotelReception();
-
         }
+    }
+
+    private boolean validateFields() {
+        if (idNumberInput.getText().isEmpty() || customerNameInput.getText().isEmpty() || countryInput.getText().isEmpty() || depositAmountInput.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+            return false;
+        }
+
+        // Check if deposit amount is a valid numeric value
+        try {
+            double deposit = Double.parseDouble(depositAmountInput.getText());
+            if (deposit <= 0) {
+                JOptionPane.showMessageDialog(null, "Deposit amount should be a positive number.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid deposit amount. Please enter a numeric value.");
+            return false;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {

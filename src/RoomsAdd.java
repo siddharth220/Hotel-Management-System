@@ -12,6 +12,12 @@ public class RoomsAdd extends JFrame implements ActionListener {
     RoomsAdd() {
         setLayout(null);
 
+        JLabel title = new JLabel("ADD ROOMS");
+        title.setBounds(130, 20, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         JLabel roomNumber = new JLabel("Room Number");
         roomNumber.setBounds(40, 50, 150, 40);
         roomNumber.setFont(new Font("Roboto", Font.BOLD, 16));
@@ -27,8 +33,8 @@ public class RoomsAdd extends JFrame implements ActionListener {
         add(availabilityStatus);
 
         String[] roomAvailability = {
-            "Available",
-            "Occupied"
+                "Available",
+                "Occupied"
         };
         availabilityOptions = new JComboBox(roomAvailability);
         availabilityOptions.setBounds(200, 100, 150, 30);
@@ -88,7 +94,7 @@ public class RoomsAdd extends JFrame implements ActionListener {
         cancelButton.addActionListener(this);
         add(cancelButton);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/twelve.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/add-room.jpg"));
         JLabel roomImg = new JLabel(img);
         roomImg.setBounds(400, 50, 500, 300);
         add(roomImg);
@@ -100,25 +106,39 @@ public class RoomsAdd extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         String roomNo = roomNoInput.getText();
-        String roomStatus = (String) availabilityOptions.getSelectedItem();
-        String roomCleanStatus = (String) cleaningOptions.getSelectedItem();
         String roomPrice = roomPriceInput.getText();
-        String roomBedType = (String) bedTypeOptions.getSelectedItem();
 
-        if (ae.getSource() == submitButton) {
+        // Check if roomNo and roomPrice are not empty and contain valid data
+        if (roomNo.isEmpty() || roomPrice.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+        } else {
             try {
-                ConnectionDB c = new ConnectionDB();
-                String query = "INSERT INTO rooms VALUES ("+roomNo+", '"+roomStatus+"', '"+roomCleanStatus+"', "+roomPrice+", '"+roomBedType+"')";
-                c.statement.executeUpdate(query);
-                JOptionPane.showMessageDialog(null, "Room Added");
+                // Check if roomNo and roomPrice are valid numeric values
+                int roomNumber = Integer.parseInt(roomNo);
+                double price = Double.parseDouble(roomPrice);
+
+                String roomStatus = (String) availabilityOptions.getSelectedItem();
+                String roomCleanStatus = (String) cleaningOptions.getSelectedItem();
+                String roomBedType = (String) bedTypeOptions.getSelectedItem();
+
+                if (ae.getSource() == submitButton) {
+                    ConnectionDB c = new ConnectionDB();
+                    String query = "INSERT INTO rooms VALUES (" + roomNumber + ", '" + roomStatus + "', '" + roomCleanStatus + "', " + price + ", '" + roomBedType + "')";
+                    c.statement.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Room Added");
+                } else if (ae.getSource() == cancelButton) {
+                    setVisible(false);
+                    new HotelDashboard();
+                }
+            } catch (NumberFormatException e) {
+                // Handle invalid numeric input
+                JOptionPane.showMessageDialog(null, "Please enter valid numeric values for Room Number and Room Price.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (ae.getSource() == cancelButton) {
-            setVisible(false);
-            new HotelDashboard();
         }
     }
+
     public static void main(String[] args) {
         new RoomsAdd();
     }

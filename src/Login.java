@@ -5,7 +5,8 @@ import java.sql.*;
 
 public class Login extends JFrame implements ActionListener {
 
-    JTextField usernameInput, passwordInput;
+    JTextField usernameInput;
+    JPasswordField passwordInput;
     JButton loginButton, cancelButton;
     Login() {
         getContentPane().setBackground(Color.WHITE);
@@ -26,7 +27,7 @@ public class Login extends JFrame implements ActionListener {
         usernameInput.setBounds(150, 50, 300, 30);
         add(usernameInput);
 
-        passwordInput = new JTextField();
+        passwordInput = new JPasswordField(); // Use JPasswordField for password input
         passwordInput.setBounds(150, 100, 300, 30);
         add(passwordInput);
 
@@ -46,7 +47,7 @@ public class Login extends JFrame implements ActionListener {
         cancelButton.addActionListener(this);
         add(cancelButton);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/login.jpg"));
         Image imgCrop = img.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
         ImageIcon imgCropConv = new ImageIcon(imgCrop);
         JLabel loginImage = new JLabel(imgCropConv);
@@ -59,11 +60,17 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent ae) {
         if (ae.getSource() == loginButton) {
             String username = usernameInput.getText();
-            String password = passwordInput.getText();
+            String password = new String(passwordInput.getPassword()); // Retrieve password as a char array
+
+            // Validate inputs
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Username and Password cannot be empty.");
+                return;
+            }
 
             try  {
                 ConnectionDB c = new ConnectionDB();
-                String query = "SELECT * FROM login_info WHERE username = '" +username+ "' AND password = " + password;
+                String query = "SELECT * FROM login_info WHERE username = '" +username+ "' AND password = '" + password + "'";
                 ResultSet rSet = c.statement.executeQuery(query);
 
                 if (rSet.next()) {
@@ -79,6 +86,7 @@ public class Login extends JFrame implements ActionListener {
             setVisible(false);
         }
     }
+
     public static void main(String[] args) {
         new Login();
     }

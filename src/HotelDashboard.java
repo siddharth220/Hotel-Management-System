@@ -11,7 +11,7 @@ public class HotelDashboard extends JFrame implements ActionListener {
         setBounds(0, 0, 1550, 1000);
         setLayout(null);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/third.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/dashboard.jpg"));
         Image scaledImg = img.getImage().getScaledInstance(1550, 1000, Image.SCALE_DEFAULT);
         ImageIcon scaledImgIcon = new ImageIcon(scaledImg);
 
@@ -36,28 +36,57 @@ public class HotelDashboard extends JFrame implements ActionListener {
 
         JMenu optionAdmin = new JMenu("Admin");
         dashboardMb.add(optionAdmin);
+
         addEmployee = new JMenuItem("Add Employee");
         addEmployee.addActionListener(this);
         optionAdmin.add(addEmployee);
+
         addRooms = new JMenuItem("Add Rooms");
         addRooms.addActionListener(this);
         optionAdmin.add(addRooms);
+
         addDrivers = new JMenuItem("Add Drivers");
+        addDrivers.addActionListener(this);
         optionAdmin.add(addDrivers);
 
+        reception = new JMenuItem("Reception");
+        reception.addActionListener(this);
+        optionHotelMgmt.add(reception);
 
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == addEmployee) {
-            new EmployeeAdd();
+            try {
+                new EmployeeAdd();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Add Employee: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == addRooms) {
-            new RoomsAdd();
+            try {
+                setVisible(false);
+                new RoomsAdd();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Add Rooms: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == addDrivers) {
-            new DriverAdd();
+            try {
+                setVisible(false);
+                new DriverAdd();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Add Drivers: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else if (ae.getSource() == reception) {
-            new HotelReception();
+            try {
+                new HotelReception();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error opening Reception: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
     public static void main(String[] args) {

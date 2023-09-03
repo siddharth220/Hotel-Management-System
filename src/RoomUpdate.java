@@ -15,6 +15,12 @@ public class RoomUpdate extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.WHITE);
         setBounds(300, 200, 980, 500);
 
+        JLabel title = new JLabel("UPDATE ROOMS");
+        title.setBounds(110, 20, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         JLabel custID = new JLabel("Customer ID");
         custID.setBounds(30, 80, 100, 20);
         add(custID);
@@ -68,7 +74,7 @@ public class RoomUpdate extends JFrame implements ActionListener {
         backButton.addActionListener(this);
         add(backButton);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/seventh.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/rooms.jpg"));
         Image scaleImg = img.getImage().getScaledInstance(500, 300, Image.SCALE_DEFAULT);
         ImageIcon scaledImg = new ImageIcon(scaleImg);
         JLabel checkInOutImg = new JLabel(scaledImg);
@@ -87,22 +93,27 @@ public class RoomUpdate extends JFrame implements ActionListener {
 
         setVisible(true);
     }
-    public void actionPerformed (ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == checkData) {
+            String id = customerData.getSelectedItem();
+            if (id == null || id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please select a valid Customer ID.");
+                return;
+            }
+
             try {
-                String id = customerData.getSelectedItem();
-                String dataQ = "SELECT * FROM customer_info WHERE document_id = '"+id+"'";
-
                 ConnectionDB c = new ConnectionDB();
-
+                String dataQ = "SELECT * FROM customer_info WHERE document_id = '"+id+"'";
                 ResultSet rs = c.statement.executeQuery(dataQ);
-                while (rs.next()) {
+                if (rs.next()) {
                     roomNoDisp.setText(rs.getString("room_number"));
-                }
-                ResultSet status = c.statement.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
-                while (status.next()) {
-                    roomAvlDisp.setText(status.getString("room_status"));
-                    roomClnStatus.setText(status.getString("room_clean_status"));
+                    ResultSet status = c.statement.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
+                    if (status.next()) {
+                        roomAvlDisp.setText(status.getString("room_status"));
+                        roomClnStatus.setText(status.getString("room_clean_status"));
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Customer with the selected ID not found.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -112,6 +123,11 @@ public class RoomUpdate extends JFrame implements ActionListener {
             String roomNum = roomNoDisp.getText();
             String avlStatus = roomAvlDisp.getText();
             String clnStatus = roomClnStatus.getText();
+
+            if (id == null || id.isEmpty() || roomNum.isEmpty() || avlStatus.isEmpty() || clnStatus.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+                return;
+            }
 
             try {
                 ConnectionDB c = new ConnectionDB();
@@ -125,6 +141,7 @@ public class RoomUpdate extends JFrame implements ActionListener {
             new HotelReception();
         }
     }
+
 
     public static void main(String[] args) {
         new RoomUpdate();

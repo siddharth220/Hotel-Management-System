@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import net.proteanit.sql.*;
 
 public class CustomerInfo extends JFrame implements ActionListener {
@@ -58,14 +60,25 @@ public class CustomerInfo extends JFrame implements ActionListener {
         add(custInfoTable);
 
 
+        ConnectionDB c = new ConnectionDB();
         try {
-            ConnectionDB c = new ConnectionDB();
             String query = "SELECT * FROM customer_info";
             ResultSet rs = c.statement.executeQuery(query);
             custInfoTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error fetching customer information: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                if (c.connection != null) {
+                    c.connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
+
 
         backButton = new JButton("Back");
         backButton.setBackground(Color.black);

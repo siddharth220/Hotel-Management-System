@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class CustomerCheckout extends JFrame implements ActionListener {
@@ -24,15 +26,20 @@ public class CustomerCheckout extends JFrame implements ActionListener {
         idChoice.setBounds(150, 80, 150, 25);
         add(idChoice);
 
-        // Fetch and populate the Choice box with customer IDs from the database
-        try {
-            ConnectionDB c = new ConnectionDB();
-            ResultSet rs = c.statement.executeQuery("SELECT * FROM customer_info");
-            while (rs.next()) {
-                idChoice.add(rs.getString("document_id"));
+        if (idChoice != null && idChoice.getSelectedItem() != null) {
+            // Fetch and populate the Choice box with customer IDs from the database
+            try {
+                ConnectionDB c = new ConnectionDB();
+                ResultSet rs = c.statement.executeQuery("SELECT * FROM customer_info");
+                while (rs.next()) {
+                    idChoice.add(rs.getString("document_id"));
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error fetching data from the database: " + e.getMessage());
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a valid Customer ID.");
         }
 
         // Icon for indicating customer selection
@@ -111,7 +118,7 @@ public class CustomerCheckout extends JFrame implements ActionListener {
         add(backButton);
 
         // Image for visual appeal
-        ImageIcon img2 = new ImageIcon(ClassLoader.getSystemResource("icons/sixth.jpg"));
+        ImageIcon img2 = new ImageIcon(ClassLoader.getSystemResource("icons/checkout-main.jpg"));
         Image scaleImg2 = img2.getImage().getScaledInstance(400, 250, Image.SCALE_DEFAULT);
         ImageIcon scaledImage2 = new ImageIcon(scaleImg2);
         JLabel checkImage2 = new JLabel(scaledImage2);
@@ -128,11 +135,17 @@ public class CustomerCheckout extends JFrame implements ActionListener {
             String deleteQ = "DELETE FROM customer_info WHERE document_id = '" + idChoice.getSelectedItem() + "'";
             String updateQ = "UPDATE rooms SET room_status = 'AVAILABLE' WHERE room_number = '" + roomNumDisp.getText() + "'";
 
-            try {
-                c.statement.executeUpdate(deleteQ);
-                c.statement.executeUpdate(updateQ);
+            try (PreparedStatement deleteStatement = c.connection.prepareStatement(deleteQ);
+                 PreparedStatement updateStatement = c.connection.prepareStatement(updateQ)) {
+                deleteStatement.setString(1, idChoice.getSelectedItem());
+                updateStatement.setString(1, roomNumDisp.getText());
+
+                deleteStatement.executeUpdate();
+                updateStatement.executeUpdate();
+
                 JOptionPane.showMessageDialog(null, "Customer Checked Out");
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error during check-out: " + e.getMessage());
                 e.printStackTrace();
             }
         } else if (ae.getSource() == backButton) {

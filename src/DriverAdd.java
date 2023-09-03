@@ -99,7 +99,7 @@ public class DriverAdd extends JFrame implements ActionListener {
         cancelButton.addActionListener(this);
         add(cancelButton);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/eleven.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/driver.jpg"));
         Image scaleImage = img.getImage().getScaledInstance(500, 300, Image.SCALE_DEFAULT);
         ImageIcon scaledImage = new ImageIcon(scaleImage);
         JLabel driverImage = new JLabel(scaledImage);
@@ -112,28 +112,44 @@ public class DriverAdd extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String dName = driverName.getText();
-        String dAge = driverAge.getText();
+        String dName = driverName.getText().trim();
+        String dAge = driverAge.getText().trim();
         String dGender = (String) driverGender.getSelectedItem();
-        String dCarCompany = driverCarCompany.getText();
-        String dCarModel = driverCarModel.getText();
+        String dCarCompany = driverCarCompany.getText().trim();
+        String dCarModel = driverCarModel.getText().trim();
         String dAvailability = (String) driverAvailability.getSelectedItem();
-        String dLocation = driverLocation.getText();
+        String dLocation = driverLocation.getText().trim();
 
         if (ae.getSource() == addDriver) {
-            try {
-                ConnectionDB c = new ConnectionDB();
-                String query = "INSERT INTO driver_data VALUES ('"+dName+"', "+dAge+", '"+dGender+"', '"+dCarCompany+"', '"+dCarModel+"', '"+dAvailability+"', '"+dLocation+"')";
-                c.statement.executeUpdate(query);
-                JOptionPane.showMessageDialog(null, "Driver Added");
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (dName.isEmpty() || dAge.isEmpty() || dCarCompany.isEmpty() || dCarModel.isEmpty() || dLocation.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please fill in all required fields.");
+            } else if (!isNumeric(dAge)) {
+                JOptionPane.showMessageDialog(null, "Age must be a valid number.");
+            } else {
+                try {
+                    ConnectionDB c = new ConnectionDB();
+                    String query = "INSERT INTO driver_data VALUES ('"+dName+"', "+dAge+", '"+dGender+"', '"+dCarCompany+"', '"+dCarModel+"', '"+dAvailability+"', '"+dLocation+"')";
+                    c.statement.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Driver Added");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else if (ae.getSource() == cancelButton) {
             setVisible(false);
             new HotelDashboard();
         }
     }
+
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
     public static void main(String[] args) {
         new DriverAdd();

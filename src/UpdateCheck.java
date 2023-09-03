@@ -90,7 +90,7 @@ public class UpdateCheck extends JFrame implements ActionListener {
         backButton.addActionListener(this);
         add(backButton);
 
-        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/nine.jpg"));
+        ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("icons/checkout.jpg"));
         JLabel checkInOutImg = new JLabel(img);
         checkInOutImg.setBounds(400, 50, 500, 300);
         add(checkInOutImg);
@@ -107,23 +107,31 @@ public class UpdateCheck extends JFrame implements ActionListener {
 
         setVisible(true);
     }
-    public void actionPerformed (ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == checkData) {
+            String id = customerData.getSelectedItem();
+            if (id == null || id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please select a valid Customer ID.");
+                return;
+            }
+
             try {
-                String id = customerData.getSelectedItem();
                 String dataQ = "SELECT * FROM customer_info WHERE document_id = '"+id+"'";
-
                 ConnectionDB c = new ConnectionDB();
-
                 ResultSet rs = c.statement.executeQuery(dataQ);
-                while (rs.next()) {
-                    roomNoDisp.setText(rs.getString("room_number"));
-                    custNameDisp.setText(rs.getString("customer_name"));
-                    custAmtDisp.setText(rs.getString("deposit_amount"));
-                    custTimeDisp.setText(rs.getString("checkin_time"));
+
+                if (!rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Customer data not found for the selected ID.");
+                    return;
                 }
+
+                roomNoDisp.setText(rs.getString("room_number"));
+                custNameDisp.setText(rs.getString("customer_name"));
+                custAmtDisp.setText(rs.getString("deposit_amount"));
+                custTimeDisp.setText(rs.getString("checkin_time"));
+
                 ResultSet amt = c.statement.executeQuery("SELECT * FROM rooms WHERE room_number = '"+roomNoDisp.getText()+"' ");
-                while (amt.next()) {
+                if (amt.next()) {
                     String price = amt.getString("room_price");
                     int amountRem = Integer.parseInt(price) - Integer.parseInt(custAmtDisp.getText());
                     custRemAmtDisp.setText("" + amountRem);
@@ -135,6 +143,11 @@ public class UpdateCheck extends JFrame implements ActionListener {
             String id = customerData.getSelectedItem();
             String deposit = custAmtDisp.getText();
 
+            if (!isNumeric(deposit)) {
+                JOptionPane.showMessageDialog(null, "Please enter a numeric deposit amount.");
+                return;
+            }
+
             try {
                 ConnectionDB c = new ConnectionDB();
                 c.statement.executeUpdate("UPDATE customer_info SET deposit_amount = '"+deposit+"' WHERE document_id = '"+id+"' ");
@@ -145,6 +158,16 @@ public class UpdateCheck extends JFrame implements ActionListener {
         } else if (ae.getSource() == backButton) {
             setVisible(false);
             new HotelReception();
+        }
+    }
+
+    // Helper method to check if a string is numeric
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 

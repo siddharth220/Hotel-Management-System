@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import net.proteanit.sql.*;
 
 public class Departments extends JFrame implements ActionListener {
@@ -27,15 +29,24 @@ public class Departments extends JFrame implements ActionListener {
         departmentTable.setBounds(0, 40, 600, 400);
         add(departmentTable);
 
-
+        ConnectionDB c = new ConnectionDB();
         try {
-            ConnectionDB c = new ConnectionDB();
             String query = "SELECT * FROM department_info";
             ResultSet rs = c.statement.executeQuery(query);
             departmentTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error fetching department information: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                if (c.connection != null) {
+                    c.connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
 
         backButton = new JButton("Back");
         backButton.setBackground(Color.black);

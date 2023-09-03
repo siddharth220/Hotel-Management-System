@@ -16,6 +16,12 @@ public class SearchRooms extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.WHITE);
         setBounds(300, 200, 1050, 600);
 
+        JLabel title = new JLabel("SEARCH ROOMS");
+        title.setBounds(450, 20, 400, 30);
+        title.setFont(new Font("Roboto", Font.BOLD, 20));
+        title.setForeground(Color.BLUE);
+        add(title);
+
         JLabel roomBedTypes = new JLabel("Room Bed Type");
         roomBedTypes.setBounds(70, 50, 100, 20);
         roomBedTypes.setFont(new Font("Roboto", Font.BOLD, 12));
@@ -86,18 +92,22 @@ public class SearchRooms extends JFrame implements ActionListener {
 
         setVisible(true);
     }
-    public void actionPerformed (ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == applyButton) {
+            String typeOfBed = (String) bedOptions.getSelectedItem();
+
+            if (typeOfBed == null || typeOfBed.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please select a valid Room Bed Type.");
+                return;
+            }
+
             try {
-                String typeOfBed = (String) bedOptions.getSelectedItem();
-                String bedQ = "SELECT * FROM rooms WHERE bed_type = '"+typeOfBed+"' ";
-                String availableQ = "SELECT * FROM rooms WHERE room_status = 'Available'";
                 ResultSet rs;
                 ConnectionDB c = new ConnectionDB();
                 if (availableRooms.isSelected()) {
-                    rs = c.statement.executeQuery(availableQ);
+                    rs = c.statement.executeQuery("SELECT * FROM rooms WHERE room_status = 'Available'");
                 } else {
-                    rs = c.statement.executeQuery(bedQ);
+                    rs = c.statement.executeQuery("SELECT * FROM rooms WHERE bed_type = '"+typeOfBed+"' ");
                 }
                 roomsTable.setModel(DbUtils.resultSetToTableModel(rs));
             } catch (Exception e) {
@@ -108,6 +118,7 @@ public class SearchRooms extends JFrame implements ActionListener {
             new HotelReception();
         }
     }
+
     public static void main(String[] args) {
         new SearchRooms();
     }

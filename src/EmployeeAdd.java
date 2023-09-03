@@ -118,7 +118,7 @@ public class EmployeeAdd extends JFrame implements ActionListener {
         submitButton.addActionListener(this);
         add(submitButton);
 
-        ImageIcon unscaledImage = new ImageIcon(ClassLoader.getSystemResource("icons/tenth.jpg"));
+        ImageIcon unscaledImage = new ImageIcon(ClassLoader.getSystemResource("icons/employee-add.jpg"));
         Image scaleImage = unscaledImage.getImage().getScaledInstance(450, 450, Image.SCALE_DEFAULT);
         ImageIcon resizedImage = new ImageIcon(scaleImage);
         JLabel scaledImage = new JLabel(resizedImage);
@@ -132,12 +132,12 @@ public class EmployeeAdd extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String employeeName = empNameInput.getText();
-        String employeeAge = empAgeInput.getText();
-        String employeeSalary = empSalaryInput.getText();
-        String employeePhone = empPhoneInput.getText();
-        String employeeAadhar = empAadharInput.getText();
-        String employeeEmail = empEmailInput.getText();
+        String employeeName = empNameInput.getText().trim();
+        String employeeAge = empAgeInput.getText().trim();
+        String employeeSalary = empSalaryInput.getText().trim();
+        String employeePhone = empPhoneInput.getText().trim();
+        String employeeAadhar = empAadharInput.getText().trim();
+        String employeeEmail = empEmailInput.getText().trim();
         String employeeGender = null;
 
         if (maleButton.isSelected()) {
@@ -148,16 +148,43 @@ public class EmployeeAdd extends JFrame implements ActionListener {
 
         String jobTitle = (String) jobOptions.getSelectedItem();
 
-        try {
-            ConnectionDB c = new ConnectionDB();
-            String query = "INSERT INTO employee VALUES ('"+employeeName+"', "+employeeAge+", "+employeeSalary+", "+employeePhone+", "+employeeAadhar+", '"+employeeEmail+"', '"+employeeGender+"', '"+jobTitle+"')";
-            c.statement.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Employee Added Successfully");
-            setVisible(false);
-        } catch (Exception e) {
-            e.printStackTrace();  // Print the exception's stack trace for debugging purposes
+        if (ae.getSource() == submitButton) {
+            if (isFieldEmpty(employeeName) || isFieldEmpty(employeeAge) || isFieldEmpty(employeeSalary) ||
+                    isFieldEmpty(employeePhone) || isFieldEmpty(employeeAadhar) || isFieldEmpty(employeeEmail) ||
+                    employeeGender == null || isFieldEmpty(jobTitle)) {
+                JOptionPane.showMessageDialog(null, "Please fill in all required fields.");
+            } else if (!isNumeric(employeeAge) || !isNumeric(employeeSalary) || !isNumeric(employeePhone) ||
+                    !isNumeric(employeeAadhar)) {
+                JOptionPane.showMessageDialog(null, "Age, Salary, Phone, and Aadhar must be valid numbers.");
+            } else {
+                try {
+                    ConnectionDB c = new ConnectionDB();
+                    String query = "INSERT INTO employee VALUES ('"+employeeName+"', "+employeeAge+", "+employeeSalary+", "+employeePhone+", "+employeeAadhar+", '"+employeeEmail+"', '"+employeeGender+"', '"+jobTitle+"')";
+                    c.statement.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Employee Added Successfully");
+                    setVisible(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
+
+    // Validate if a string input is empty
+    public boolean isFieldEmpty(String input) {
+        return input.trim().isEmpty();
+    }
+
+    // Validate if a numeric input is a valid number
+    public boolean isNumeric(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         new EmployeeAdd();
     }
