@@ -5,21 +5,44 @@
 ![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-green)
 ![IDE](https://img.shields.io/badge/IDE-IntelliJ%20IDEA-orange)
 
-A Hotel Management System implemented in Java Swing and AWT, with a MySQL database backend. This system allows hotel staff to manage reservations, guest information, room assignments, and more.
+A comprehensive Hotel Management System implemented in Java Swing and AWT, with a MySQL database backend. This system is designed to streamline hotel operations, from guest reservations and checkouts to employee and room management. It includes the following features:
 
 ## Features
 
-- **User Authentication**: Secure login system for hotel staff.
+- **Home Page**: A welcoming landing page for guests and staff.
 
-- **Reservation Management**: Create, update, and delete reservations.
+- **Login Page**: Secure user authentication for hotel staff and administrators.
 
-- **Guest Information**: Maintain guest details and preferences.
+- **Hotel Dashboard**: Centralized control panel for managing hotel operations.
 
-- **Room Management**: Assign, release, and track room availability.
+- **New Customer Form**: Easily add new customer details.
 
-- **Billing and Invoices**: Generate invoices for guests.
+- **Room Information**: View and manage room details and availability.
 
-- **Reporting**: Generate reports on reservations, occupancy, and revenue.
+- **Department Information**: Maintain information about hotel departments.
+
+- **Employee Info**: Manage employee profiles and roles.
+
+- **Customer Info**: Maintain guest information and preferences.
+
+- **Manager Info**: Manage manager profiles and responsibilities.
+
+- **Checkout**: Streamlined guest checkout process.
+
+- **Update Customer Status**: Modify guest status (e.g., checked-in, checked-out).
+
+- **Update Room Status**: Manage room statuses (e.g., occupied, vacant).
+
+- **Pickup Services**: Arrange transportation services for guests.
+
+- **Search Rooms**: Quick room search and booking capabilities.
+
+- **Admin Options**:
+  - Add Employees: Hire and manage hotel staff.
+  - Add Drivers: Employ drivers for guest transportation.
+  - Add Rooms: Expand the hotel's room inventory.
+
+- **Logout**: Securely log out from the system.
 
 ## Prerequisites
 
@@ -43,9 +66,11 @@ A Hotel Management System implemented in Java Swing and AWT, with a MySQL databa
 
 - Launch the application and log in using your credentials.
 
-- Use the intuitive GUI to manage reservations, guest information, rooms, and billing.
+- Use the intuitive GUI to manage all aspects of hotel operations.
 
-- Explore the reporting features to gain insights into hotel operations.
+- Leverage the admin options for adding employees, drivers, and rooms.
+
+- Generate reports and gain insights into hotel performance.
 
 ## Contributing
 
@@ -69,7 +94,7 @@ This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LI
 
 - Special thanks to the open-source community for valuable resources and libraries.
 
-- Credits to contributors and collaborators who helped build this system.
+- Credits to contributors and collaborators who helped build this comprehensive Hotel Management System.
 
 ---
 
