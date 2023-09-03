@@ -62,6 +62,106 @@ A comprehensive Hotel Management System implemented in Java Swing and AWT, with 
 
 5. Build and run the project.
 
+## Installation
+
+Follow these steps to set up the MySQL database for the Hotel Management System:
+
+1. **Database Setup:**
+
+   - Install and configure MySQL on your system if you haven't already.
+
+   - Create a new database for the Hotel Management System. You can use a MySQL client like phpMyAdmin or run the following command in the MySQL command line, replacing `<your_database_name>`, `<your_username>`, and `<your_password>` with your desired values:
+
+     ```sql
+     CREATE DATABASE <your_database_name>;
+     ```
+
+   - Make note of the database name as you will need it later.
+
+2. **Edit Connection String:**
+
+   - Open the project in your IntelliJ IDEA or preferred IDE.
+
+   - Locate the following line of code in your project where the database connection is established:
+
+     ```java
+     String connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/sunrisehotelmgmt", "root", "2022.Hell_cat*-");
+     ```
+
+   - Replace the values in the connection string as follows:
+     
+     - `<your_database_name>`: Replace with the name of the database you created.
+     - `<your_username>`: Replace with your MySQL username.
+     - `<your_password>`: Replace with your MySQL password.
+     - `<your_port>`: If your MySQL server is running on a different port (default is 3306), replace it accordingly.
+
+   - Save the changes.
+
+3. **Table Creation:**
+
+   - After editing the connection string, run the application.
+
+   - The application should automatically create the necessary tables in your database based on the entity classes in the code. If it doesn't, you can manually create the tables using the provided SQL scripts.
+
+   - Open a MySQL client or the MySQL command line and execute the following SQL scripts, one by one, to create the required tables:
+
+     ```sql
+     CREATE TABLE `customer_info` (
+       `document` varchar(30) DEFAULT NULL,
+       `document_id` varchar(30) DEFAULT NULL,
+       `customer_name` varchar(50) DEFAULT NULL,
+       `gender` varchar(10) DEFAULT NULL,
+       `country` varchar(30) DEFAULT NULL,
+       `room_number` int DEFAULT NULL,
+       `checkin_time` varchar(80) DEFAULT NULL,
+       `deposit_amount` int DEFAULT NULL
+     );
+
+     CREATE TABLE `department_info` (
+       `department` varchar(40) DEFAULT NULL,
+       `budget` int DEFAULT NULL
+     );
+
+     CREATE TABLE `driver_data` (
+       `name` varchar(50) DEFAULT NULL,
+       `age` int DEFAULT NULL,
+       `gender` varchar(10) DEFAULT NULL,
+       `car_company` varchar(30) DEFAULT NULL,
+       `car_model` varchar(30) DEFAULT NULL,
+       `driver_availibility` varchar(20) DEFAULT NULL,
+       `destination` varchar(50) DEFAULT NULL
+     );
+
+     CREATE TABLE `employee` (
+       `name` varchar(50) DEFAULT NULL,
+       `age` int DEFAULT NULL,
+       `salary` int DEFAULT NULL,
+       `phone` bigint DEFAULT NULL,
+       `aadhar` bigint DEFAULT NULL,
+       `email` varchar(30) DEFAULT NULL,
+       `gender` varchar(10) DEFAULT NULL,
+       `job` varchar(20) DEFAULT NULL
+     );
+
+     CREATE TABLE `login_info` (
+       `username` varchar(30) DEFAULT NULL,
+       `password` varchar(40) DEFAULT NULL
+     );
+
+     CREATE TABLE `rooms` (
+       `room_number` int DEFAULT NULL,
+       `room_status` varchar(20) DEFAULT NULL,
+       `room_clean_status` varchar(20) DEFAULT NULL,
+       `room_price` int DEFAULT NULL,
+       `bed_type` varchar(20) DEFAULT NULL
+     );
+     ```
+
+4. Build and run the project.
+
+Now, your Hotel Management System should be connected to the MySQL database with the required tables in place.
+
+
 ## Usage
 
 - Launch the application and log in using your credentials.
